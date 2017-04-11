@@ -20,12 +20,12 @@
         <script type="text/javascript">
   document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
-        console.log("navigator.geolocation works well");
+        console.log(navigator,device,capture);
     }
 
-    navigator.geolocation.getCurrentPosition(geolocationSuccess,
-                                         [geolocationError],
-                                         [geolocationOptions]);
+    //navigator.geolocation.getCurrentPosition(geolocationSuccess,
+      //                                   [geolocationError],
+        //                                 [geolocationOptions]);
 
      // onSuccess Callback
     // This method accepts a Position object, which contains the
