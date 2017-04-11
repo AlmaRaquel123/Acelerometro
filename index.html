@@ -1,26 +1,70 @@
+<!-- hola esto es un comentario-->
 <!DOCTYPE html>
 <html>
-<head>
-<title> Ejemplo Acelerometro</title>
-<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
-<script type="text/javascript">
-document.addEventListener("deviceready", onDeviceReady, false);
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Acelerómetro</title>
+    </head>
+    <body>
+        <h1>Acelerómetro</h1>
+        <div id="foo">
+            <p>Eje X: <span class="ejes" id="x"></span></p>
+            <p>Eje Y: <span class="ejes" id="y"></span></p>
+            <p>Eje Z: <span class="ejes" id="z"></span></p>
+            <button>STOP</button>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                // El watch id referencia al actual 'watchAcceleration'
+                var watchID = null;
 
-function onDeviceReady(){
-  navigator.accelerometer.watchAcceleration(onSuccess, onError, {frequency:3000});
-}
+                // Importante el manejador de eventos para que cargue las librerías
+                document.addEventListener("deviceready", onDeviceReady, false);
 
-function onSuccess(acelerar){
-  var elemento=document.getElementById("acelerometro");
-  elemento.innerHTML="Acelaración en X:"+acelerar.x+ "<br>Acelaración en Y:"+acelerar.y+
-  "<br>Acelaración en Z:"+acelerar.z+"<br> Timestamp: "+acelerar.timestamp;
-}
-function onError(){
-  alert("Error");
-}
-</script>
-</head>
-<body>
-<div id="acelerometro">Datos del acelerometro...</div>
-</body>
+                // Las APIs del dispositivo listas
+                //
+                function onDeviceReady() {
+                    startWatch();
+                }
+
+                // Empezar a ver la aceleracion
+                //
+                function startWatch() {
+                    // Actualizar la aceleracion cada 0.5s
+                    var options = { frequency: 500 };
+
+                    watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+                }
+
+                // Detener la aceleracion
+                //
+                $("button").click(function(){
+                    navigator.accelerometer.clearWatch(watchID);
+                    watchID = null;
+                });
+
+                // onSuccess: Captura la aceleracion actual
+                //
+                function onSuccess(acceleration) {
+                    $("#x").html(acceleration.x);
+                    $("#y").html(acceleration.y);
+                    $("#z").html(acceleration.z);
+                }
+
+                // onError: Al fallar el captor
+                //
+                function onError() {
+                    alert("ERROR!");
+                }
+
+            });
+        </script>
+    </body>
 </html>
