@@ -12,10 +12,7 @@
     <body>
         <h1>Acelerómetro</h1>
         <div id="foo">
-            <p>Eje X: <span class="ejes" id="x"></span></p>
-            <p>Eje Y: <span class="ejes" id="y"></span></p>
-            <p>Eje Z: <span class="ejes" id="z"></span></p>
-            <button>STOP</button>
+          <button type="button" name="button" onclick="geolocalizacion()">Posicion</button>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -34,6 +31,7 @@
     // This method accepts a Position object, which contains the
     // current GPS coordinates
     //
+    function gealocalizacion(){
     var onSuccess = function(position) {
         alert('Latitude: '          + position.coords.latitude          + '\n' +
               'Longitude: '         + position.coords.longitude         + '\n' +
@@ -44,6 +42,7 @@
               'Speed: '             + position.coords.speed             + '\n' +
               'Timestamp: '         + position.timestamp                + '\n');
     };
+}
 
     // onError Callback receives a PositionError object
     //
