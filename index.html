@@ -21,50 +21,38 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript">
-            $(function(){
-                // El watch id referencia al actual 'watchAcceleration'
-                var watchID = null;
+  document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log("navigator.geolocation works well");
+    }
 
-                // Importante el manejador de eventos para que cargue las librerías
-                document.addEventListener("deviceready", onDeviceReady, false);
+    navigator.geolocation.getCurrentPosition(geolocationSuccess,
+                                         [geolocationError],
+                                         [geolocationOptions]);
 
-                // Las APIs del dispositivo listas
-                //
-                function onDeviceReady() {
-                    startWatch();
-                }
+     // onSuccess Callback
+    // This method accepts a Position object, which contains the
+    // current GPS coordinates
+    //
+    var onSuccess = function(position) {
+        alert('Latitude: '          + position.coords.latitude          + '\n' +
+              'Longitude: '         + position.coords.longitude         + '\n' +
+              'Altitude: '          + position.coords.altitude          + '\n' +
+              'Accuracy: '          + position.coords.accuracy          + '\n' +
+              'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+              'Heading: '           + position.coords.heading           + '\n' +
+              'Speed: '             + position.coords.speed             + '\n' +
+              'Timestamp: '         + position.timestamp                + '\n');
+    };
 
-                // Empezar a ver la aceleracion
-                //
-                function startWatch() {
-                    // Actualizar la aceleracion cada 0.5s
-                    var options = { frequency: 500 };
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
 
-                    watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
-                }
-
-                // Detener la aceleracion
-                //
-                $("button").click(function(){
-                    navigator.accelerometer.clearWatch(watchID);
-                    watchID = null;
-                });
-
-                // onSuccess: Captura la aceleracion actual
-                //
-                function onSuccess(acceleration) {
-                    $("#x").text(acceleration.x);
-                    $("#y").text(acceleration.y);
-                    $("#z").text(acceleration.z);
-                }
-
-                // onError: Al fallar el captor
-                //
-                function onError() {
-                    alert("ERROR!");
-                }
-
-            });
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
         </script>
     </body>
 </html>
